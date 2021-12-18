@@ -9,7 +9,7 @@ Create a .env file and fill the following data.
 
 You need npm installed. Then run the following code
   ```
-  npm init
+  npm install
   ```
 To run the bot you can type
   ```
