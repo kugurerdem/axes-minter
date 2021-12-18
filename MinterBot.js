@@ -21,11 +21,17 @@ class MinterBot{
 
     async startMinting(season){
         // continuously check whether or not we are whitelisted
-        let whiteListed = false;
-        while(!whiteListed){
+        let preCondition = false;
+        while(!preCondition){
             await utils.sleep(this.checkWhiteListTime);
-            whiteListed = await this.mintContract.methods.isWhitelisted(this.address, season).call();
+            let whiteListed = await this.mintContract.methods.isWhitelisted(this.address, season).call();
             console.log("whitelisted:", whiteListed);
+
+            let contract_season = await this.mintContract.methods.season().call();
+            let correctSeason = season <= contract_season;
+            console.log("correctSeason:", correctSeason, "current season is", contract_season);
+
+            preCondition = whiteListed && correctSeason;
         }
         
         // after we are whitelisted, start minting
