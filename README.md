@@ -13,5 +13,5 @@ You need npm installed. Then run the following code
   ```
 To run the bot you can type
   ```
-  npm run
+  node index
   ```
