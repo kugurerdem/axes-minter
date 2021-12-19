@@ -33,7 +33,7 @@ class Web3Facade{
         console.log("estimated gas:" +_gasLim);
         txObject.gasLimit = this.web3.utils.toHex( (_gasLim).toString());
 
-        return sendTransaction(privateKey, txObject)
+        return this.sendTransaction(privateKey, txObject)
     }
 
     /**
