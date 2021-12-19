@@ -32,7 +32,7 @@ class MinterBot{
             console.log("correctSeason:", correctSeason, "current season is", contract_season);
 
             // check for timestamp
-            let timestamp = await this.web3Facade.blockTimestamp();
+            let timestamp = await parseInt(this.web3Facade.blockTimestamp());
             let seasonInfo = await this.mintContract.methods.seasonInfo(season).call();
 
             let timestampOk = parseInt(seasonInfo._seasonStart) <= timestamp && timestamp <= parseInt(seasonInfo._seasonStop);
