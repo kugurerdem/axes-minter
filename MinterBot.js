@@ -25,13 +25,19 @@ class MinterBot{
         while(!preCondition){
             await utils.sleep(this.checkWhiteListTime);
             let whiteListed = await this.mintContract.methods.isWhitelisted(this.address, season).call();
-            console.log("whitelisted:", whiteListed);
+            console.log("whitelisted:", whiteListed, "waiting to be whitelisted");
 
             let contract_season = await this.mintContract.methods.season().call();
             let correctSeason = season <= contract_season;
             console.log("correctSeason:", correctSeason, "current season is", contract_season);
 
-            preCondition = whiteListed && correctSeason;
+            // check for timestamp
+            let timestamp = await this.web3Facade.blockTimestamp();
+            let seasonInfo = await this.mintContract.methods.seasonInfo(season).call();
+
+            let timestampOk = parseInt(seasonInfo._seasonStart) <= timestamp && timestamp <= parseInt(seasonInfo._seasonStop);
+            console.log(seasonInfo._seasonStart, timestamp, seasonInfo._seasonStop, timestampOk);
+            preCondition = whiteListed && correctSeason && timestampOk;
         }
         
         // after we are whitelisted, start minting
@@ -60,6 +66,7 @@ class MinterBot{
     async mint(season, nonce){
         try{
             let gasPrice = await this.getFastGasPrice(); // we want our transactions to be fast
+            console.log(gasPrice);
 
             let txObj = {
                 to: this.mintContract.options.address, 

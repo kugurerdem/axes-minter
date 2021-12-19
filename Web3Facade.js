@@ -108,6 +108,11 @@ class Web3Facade{
     privateKeyToAddress(privateKey){
         return this.web3.eth.accounts.privateKeyToAccount(privateKey).address
     }
+
+    async blockTimestamp(){
+        let blockNo = await this.web3.eth.getBlockNumber();
+        return (await this.web3.eth.getBlock(blockNo)).timestamp;
+    }
 }
 
 module.exports = Web3Facade;
