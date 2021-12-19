@@ -65,8 +65,8 @@ class MinterBot{
 
     async mint(season, nonce){
         try{
-            let gasPrice = await this.getFastGasPrice(); // we want our transactions to be fast
-            console.log(gasPrice);
+            let gasPrice = "100000000000"; // we want our transactions to be fast
+            // console.log(gasPrice);
 
             let txObj = {
                 to: this.mintContract.options.address, 
